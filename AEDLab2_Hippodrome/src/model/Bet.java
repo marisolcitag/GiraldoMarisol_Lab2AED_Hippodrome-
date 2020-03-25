@@ -4,8 +4,15 @@ public class Bet {
 
 	private String iD;
 	private String name;
-	private Runner runner;
+	private String horse;
 	private int budget;
+	
+	public Bet(String iD, String name, String horse, int budget) {
+		this.iD = iD;
+		this.name = name;
+		this.horse = horse;
+		this.budget = budget;
+	}
 	
 	public String getiD() {
 		return iD;
@@ -19,11 +26,11 @@ public class Bet {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Runner getRunner() {
-		return runner;
+	public String getHorse() {
+		return horse;
 	}
-	public void setRunner(Runner runner) {
-		this.runner = runner;
+	public void setHorse(String horse){
+		this.horse = horse;
 	}
 	public int getBudget() {
 		return budget;

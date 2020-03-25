@@ -1,7 +1,6 @@
 package model;
 
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -25,19 +24,41 @@ public class Hippodrome<R,B> implements IHippodrome<R, B>{
 	}
 	
 	public void startRace() {
-		if(isSecondLap) {
-			
-		}else {
-			
-			ArrayList<Runner> runners = new ArrayList<>();
-			int size = ArrivalOrder.size();
-			for (int i = 0; i < size; i++) {
-				Runner r = (Runner) ArrivalOrder.poll();
-				double speed =  ((Math.random()*40 + 20))*1000;
-				 
+		
+		if(ArrivalOrder.size()>6 && ArrivalOrder.size()<11) {
+			HashMap<Integer, R> arrival = new HashMap<Integer, R>();
+			int size = 0;
+			int[] times = null;
+			if(isSecondLap) {
+				for (int i = 0; i < ArrivalOrder.size(); i++) {
+					secondLap.push(ArrivalOrder.poll());
+				}
+				size = secondLap.size();
+				times = new int[size];
+				for (int i = 0; i < size; i++) {
+					R r =  secondLap.pop();
+					int speed =  (int) (((Math.random()*40 + 20))*1000);
+					int time = tracksDistances[i]/speed*3600;
+					times[i] = time;
+					arrival.put(time, r);
+				}
+			}else {
+				 size = ArrivalOrder.size();
+				 times = new int[size];
+				 for (int i = 0; i < size; i++) {
+					R r =  ArrivalOrder.poll();
+					int speed =  (int) (((Math.random()*40 + 20))*1000);
+					int time = tracksDistances[i]/speed*3600;
+					times[i] = time;
+					arrival.put(time, r);
+				}
+				
 			}
-		}
-		isSecondLap = !isSecondLap;
+			Arrays.sort(times);
+			for (int i = 0; i < times.length; i++) {
+				ArrivalOrder.add(arrival.get(times[i]));
+			}
+		}	
 	}
 	
 	private void modelateTracks() {
@@ -55,7 +76,6 @@ public class Hippodrome<R,B> implements IHippodrome<R, B>{
 	
 	public void addRunner(R runner) {
 		if(ArrivalOrder.size()<10) {
-			
 			ArrivalOrder.add(runner);
 		}
 	}
@@ -107,4 +127,3 @@ public class Hippodrome<R,B> implements IHippodrome<R, B>{
 	}
 	
 }
-
